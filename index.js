@@ -1,20 +1,25 @@
-require('dotenv').config()
-console.log("server starting")
+require('dotenv').config();
+console.log("server starting");
+
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
-const { userRouter } = require ("./routes/user");
+const { userRouter } = require('./routes/user');
 
+const app = express(); // declare app first
 
-const app  = express();
+// Middleware
+app.use(cors());       
 app.use(express.json());
 
-app.use("/api/v1/user", userRouter);
+app.use("/v1/api", userRouter);
 
-
-async function main(){
+async function main() {
     await mongoose.connect(process.env.MONGO_URL);
-    app.listen(3000);
-    console.log("Server is listening on port 3000");
+    app.listen(3000, () => {
+        console.log("Server is listening on port 3000");
+    });
 }
+
 main();

@@ -5,21 +5,20 @@ const { JWT_USER_PASSWORD } = require('../config');
 const { userMiddleware } = require('../middleware/user');
 const bcrypt = require('bcrypt');
 const {  userSignupSchema, userSigninSchema } = require ("../schema/user");
-
 const { z } = require('zod');
 
 const userRouter = Router();
 
 userRouter.post('/signup', async (req, res) => {
     const parsedData = userSignupSchema.safeParse(req.body);
-    const { email, password , firstname , lastname } = parsedData.data;    
+    const { name ,email, password } = parsedData.data;    
     const HashedPassword = await bcrypt.hash(password, 10);
-    await userModel.create({
-        email :email,
-        password : HashedPassword,
-        firstname : firstname,
-        lastname : lastname
-    });
+   await userModel.create({
+    name,          
+    email,         
+    password: HashedPassword  
+});
+
 
     res.json({
         message : "User created successfully"
@@ -45,6 +44,18 @@ userRouter.post('/signup', async (req, res) => {
         message : "Invalid email or password"
     })
 }
+});
+userRouter.get('/profile', userMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id; 
+        const user = await userModel.findById(userId).select('-password');
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        res.json({ user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
 });
 
 
