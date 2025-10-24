@@ -12,7 +12,8 @@ const userSigninSchema = z.object({
     password : z.string().min(6)
 });
 
+
 module.exports = {
     userSignupSchema,
-    userSigninSchema
+    userSigninSchema,
 };
