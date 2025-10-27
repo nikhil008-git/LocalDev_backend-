@@ -4,7 +4,7 @@ const { userWaitlistSchema } = require("../schema/waitlist");
 
 const waitlistRouter = Router();
 
-waitlistRouter.post('/waitlist/join', async (req, res) => {
+waitlistRouter.post('/waitlist/join'    , async (req, res) => {
     const parsedData = userWaitlistSchema.safeParse(req.body);
 
     if (!parsedData.success) {
