@@ -26,7 +26,7 @@ app.use("/v2/api", waitlistRouter);
 app.use('/api/auth', router);
 
 // Serve frontend static files
-const frontendPath = path.join(__dirname, '../localdev-frontend/dist');
+const frontendPath = path.join(__dirname, 'dist');
 app.use(express.static(frontendPath));
 
 // Catch-all route for React Router (SPA support)
