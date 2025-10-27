@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 
-const { router } = require('./routes/auth');
+const router = require('./routes/auth'); // no curly braces
 const { waitlistRouter } = require('./routes/waitlist');
 const { userRouter } = require('./routes/user');
 
