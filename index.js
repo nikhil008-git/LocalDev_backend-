@@ -22,17 +22,19 @@ app.use(morgan('dev')); // request logging
 // API routes
 app.use("/v1/api", userRouter);
 app.use("/v2/api", waitlistRouter);
+app.use('/api/auth', router);
 
 // Serve frontend static files
 const frontendPath = path.join(__dirname, '../localdev-frontend/dist');
 app.use(express.static(frontendPath));
 
-// // Catch-all route for React Router
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(frontendPath, 'index.html'));
-// });
+// Catch-all route for React Router (SPA support)
+// FIXED: Use app.use() instead of app.get() with wildcard
+app.use((req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
 
-// Global error handler
+// Global error handler (this won't be reached now, but keep for explicit error handling)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
