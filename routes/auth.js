@@ -1,4 +1,4 @@
-const Router = require('express');
+const { Router } = require('express');
 const { googleLogin } = require('../controllers/authController');
 const router = Router();
 
